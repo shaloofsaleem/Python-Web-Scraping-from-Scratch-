@@ -6,10 +6,10 @@ The end goal of this course is to scrape blogs to analyze trending keywords and 
 
 We'll be using Python 3.6, Requests, BeautifulSoup, Asyncio, Pandas, Numpy, and more!
 
-## Section 1: [Your First Scraping Program](https://www.codingforentrepreneurs.com/courses/web-scraping/your-first-scraping-program/)
+## Section 1: [Scraping Top Repositories for Topics on GitHub](https://www.codingforentrepreneurs.com/courses/web-scraping/your-first-scraping-program/)
 Watch [here](https://www.codingforentrepreneurs.com/courses/web-scraping/your-first-scraping-program/)
 
-Final code is [first-web-scraping-program.zip](./first-web-scraping-program.zip)
+Web scraping is the process of extracting and parsing data from websites in an automated fashion using a computer program. It's a useful technique for creating datasets for research and learning. Follow these steps to build a web scraping project from scratch using Python and its ecosystem of libraries:
 
 #### Install Guides
 Windows: https://kirr.co/6r8wr9
@@ -24,9 +24,11 @@ Linux: https://kirr.co/c3uvuu
 2. Open and scrape that webpage's words each word
 3. Save that info into a csv
 
-###### Third party Packages
+###### TODO (Intro):
 
-- Python Requests : http://docs.python-requests.org/en/master/
+- Python Requests : http://docs.python-requests.org/en/master/Introduction about web scraping
+- Introduction about GitHub and the problem statement
+- Mention the tools you're using (Python, requests, Beautiful Soup, Pandas)
 
     ```
     pip install requests
@@ -55,42 +57,57 @@ Linux: https://kirr.co/c3uvuu
 4. Scrape & Parse words in a Post
 
 
-[1 - Welcome](../../tree/118bda3462c7452a828702f3e13a573aa5d28b4a/)
+#### Here are the steps we'll follow:
 
-[2 - Get URL Input](../../tree/118bda3462c7452a828702f3e13a573aa5d28b4a/)
+- We're going to scrape https://github.com/topics
+- We'll get a list of topics. For each topic, we'll get topic title, topic page URL and topic description
+- For each topic, we'll get the top 25 repositories in the topic from the topic page
+- For each repository, we'll grab the repo name, username, stars and repo URL
+- For each topic we'll create a CSV file in the following format:
+- Repo Name,Username,Stars,Repo URL
+- three.js,mrdoob,69700,https://github.com/mrdoob/three.js
+- libgdx,libgdx,18300,https://github.com/libgdx/libgdx
 
-[3 - Regular Expression Validation](../../tree/2523039e67cf91ed6552dc31fcc2240b2be30c58/)
+#### Scrape the list of topics from Github
+Explain how you'll do it.
 
-[4 - Force Quit Program](../../tree/72c74d214655642bb442e6391a09ca6ab57e1e59/)
+- use requests to downlaod the page
+- user BS4 to parse and extract information
+- convert to a Pandas dataframe
+Let's write a function to download the page.
 
-[5 - Usability](../../tree/d583c77c7013c0399f51e8052d9c9a1bc0ab044e/)
+    ```
+   import requests
+from bs4 import BeautifulSoup
 
-[6 - Fetch URL](../../tree/38506bc8d45722df18087c624f3910bfc6b61f23/)
+def get_topics_page():
+    # TODO - add comments
+    topics_url = 'https://github.com/topics'
+    response = requests.get(topics_url)
+    if response.status_code != 200:
+        raise Exception('Failed to load page {}'.format(topic_url))
+    doc = BeautifulSoup(response.text, 'html.parser')
+    return doc
+    ```
+    Add some explanation
+    
+    ```
+    doc = get_topics_page()
+    ```
+    Let's create some helper functions to parse information from the page.
 
-[7 - Soupify](../../tree/6b6d4a7d384d49f1f7d69ad1beb6317f8547a99b/)
+- To get topic titles, we can pick p tags with the class ...
 
-[8 - Extract Data](../../tree/6fc67c4e424ca64600813dd8a4b16916186e149e/)
-
-[9 - Parse Links](../../tree/beb8beef00da709310267c6e6b94c67f71540b93/)
-
-[10 - Get Local Paths](../../tree/056f95c20c4fc447ff840178dff9abe1cc973880/)
-
-[11 - Local Paths by Regular Expression](../../tree/9909d19a9e2bc2b6934bf571253a3661158ed417/)
-
-[12 - Some Lookup Errors](../../tree/32b91cc58332a01b57406453c5802368f25d6f1c/)
-
-[13 - Scrape Local Paths](../../tree/b6da1d3b02148099514ff8446e0fe535f140a030/)
-
-[14 - Parse Words](../../tree/3a808719fd2f343a9a2e279d65a5d71826d40c30/)
-
-[15 - Python Set](../../tree/2bd7b5fc47cd9d4dddb38b0c63b236e2069845d3/)
-
-[16 - A Recursive Function](../../tree/8bae867a8a89d851333a6ab13aa46f4ba2f76930/)
-
-[17 - Mock Fetching](../../tree/898d69d8e6edab45f266c848b9907192546c5e06/)
-
-[18 - All together](../../tree/fa8de79f2bc4cce3142ff3254ec4aa415eb824d4/)
-
+   ```
+   def get_topic_titles(doc):
+    selection_class = 'f3 lh-condensed mb-0 mt-1 Link--primary'
+    topic_title_tags = doc.find_all('p', {'class': selection_class})
+    topic_titles = []
+    for tag in topic_title_tags:
+        topic_titles.append(tag.text)
+    return topic_titles
+    ```
+   
 
 
 ## Section 3: [Asyncio & Web Scraping](https://www.codingforentrepreneurs.com/courses/web-scraping/asyncio-web-scraping/)
