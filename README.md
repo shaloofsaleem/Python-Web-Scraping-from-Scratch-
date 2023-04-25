@@ -1,4 +1,4 @@
-[![Web Scraping Logo](https://cfe2-static.s3-us-west-2.amazonaws.com/media/courses/web-scraping/images/Web-Scraping.jpg)](https://www.codingforentrepreneurs.com/courses/web-scraping/)
+[![Web Scraping Logo](https://github.com/shaloofsaleem/Python-Web-Scraping-from-Scratch-/blob/main/6zM7JBq.png?raw=true)](https://www.codingforentrepreneurs.com/courses/web-scraping/)
 
 Learn how to leverage Python's amazing tools to scrape data from other websites.
 
